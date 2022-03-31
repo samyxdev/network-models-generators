@@ -1,0 +1,100 @@
+-> Many groups implement all of them ( so we should implement all of them ) 
+
+-> You can use Python, networkX,...: but NOT  the algorithm
+
+-> THE ONLY THING PROHIBITED IS THE USE OF FUNCTIONS THAT 
+	IMPLEMENT THE MODELS
+
+-> for ER you can implement also both G(N,K) and G(N,p)
+
+-> remember: REAL NETWORKS ARE SPARSE---> do not generate networks that are not sparse (max avg degree should be around 20)
+					you should choose the correct value of K, p, N
+
+-> try always to obtain <K> smaller than 20/25
+
+-> in CM: you choose the degree distribution as an input parameter.
+		At least try with a Poisson degree distribution (which generates a ER network)
+			or a power-law distribution that generates a SF network
+
+-> You have to make plots
+
+-> Estimation of the exponent in the case of a SF network!!!! (read details)
+
+-> You have some files.:
+			1- One file has details of how to implement a BA model (how to generate the random numbers: this is only if you have have a random() generator that generates only uniform distributions. If you have a random() number generator which allows to generate weighted distributions which are not uniform (you have them in python), then you can use them.
+				beware that if you use the right random() function you don't need this file. You can follow if you don't have a function in your language to make this random weighted distributions(for assigning links)
+			2- One file has details about the CM. TO make the random permutaiton of the stubs, usually you have the function in you language, otherwise you can use Fisher-Yates algorithm
+				The problem is that you may have multiple edges or self loops: you don't know them--> or you discard them or you try to replace this links by other ones. 
+				You may use cut-offs: 
+				e.g. If you want a SF degree distribution p(k) = k^-gamma, then in the log log graph you have a line (-gamma is the slope of the line). To avoid the the fat tail, you can stop stop: e.g you can use a max allowed degree such as Kmax = sqr(N).
+					In case of gamma between 2 and 3 then use the Kmax (e.g. if the degree is larger then the cutoff just generate a new one) --> then the number of self-loops and multi-loops will be small and you can simply remove them.
+			3- For the other models there are no files since they are very straightforward, just follow the theory
+			
+			4- In the case of Power_Law degree distri. of your model you need to extimate the exponent. There is a file that explains how to do.
+				ESTIMATION OF THE EXPONENT (n.b. in logarithmic scale the size of the bins should be equal)
+				Just plot the deg. distr. in log-log and then fit the line you obtain and calculate the slope, which is going to be the exponent. A Linear Regression would do it
+				OR: you can also work with the CCDF (it's better to work with the complementary cumulative degree distrib.)
+				You have all the details on how to make a linear regression: the estimation of the exponent is written in the file.
+			5- There is a paper where they explain the correction in the estimation of the exponent the power lowe distributio: another way of estimating the exponent by using a MLE
+			SO, YOU HAVE 3 WAYS OF EXTIMATING THE EXPONENT OF A POWER-LAW DISTRIBUTION:
+				1-> FITTING the pdf
+				2-> FITTING the CCDF
+				3-> MLE (described in the paper) --> in the paper you get a formula of the aproximation of the MLE of the gamma (gamma = 1 + n*(summatory(ln(ki....) ---> which is a good aproximation of the exponent of the Power Law distribution)
+
+
+WHEN FINISHING THE 2ND ASSIGNMENT START THINKING ABOUT THE PROJECT (theme and topic you want to face in the project). In class they will give some summaries and suggesitions of possible projects
+
+
+
+
+
+
+
+
+2ND EXPLANATION LECTURE
+
+->CONFIGURATION MODEL:
+	you have N nodes and you need to generate a network with a given degree distributuion p(k)
+	1: generate the degree of each node
+		the sum of the degrees (summatory(ki)) must be an even number--> if you obtain an odd number you may repeat the assignment or change 1 of them
+	2: define the vector of the slots (as in slides) and put in the vector as many slots for each nodes degree; eg: 1 1 1 1 2 2 3 3 (if 1 has degree 4, 2 has degree 2, ...)
+		You do this because you want random connections
+	3: Make the assignments: make a random permutation of the vector of slots (there are some algorithms that do it)
+		--> and you obtain a vector like: 3 1 8 9 (it means that the first 2 is a link, the 2nd two is another link)
+		--> decide what to do with self-loops and multiple edges
+			1st option: completely check the vector and repeat the sorting until there are no circles (completely generate a new random permutation)
+ 					---> typically, depending on the degree distr. the number of self-loops and multiple edges may still be high (1st option doesn't work): this happens when the degree dirstributio is a Power Law with exponent between 2 and 3
+						the only solution in this case is to use a cut-off: eg. you say that Kmax is sqr(N) and then, when you generate the degrees of each node in step 1 according to the provided distribution and you obtain a degree > Kmax, you reperat the generation
+						IN this way you will ensure that at least for large networks the num of self-loops and mult edges will be trascurable 
+						eg if you have 1000k nodes and 2/3 self-loops or multiple-edges you can remove them or try to make a new assignment
+
+
+-> BA MODEL:
+	<K> = 2m           # average degree at the end	
+
+	-> for the initial graph you can use a fully connected graph (at least all the nodes should be of degree 1): no initial node with degree 0 otherwise it will never be connected
+
+-> when plotting degree distributions: in BA you are expected a power law with exp. 3. Ensure that all the probabilities sum to one (by adding a constant term)
+
+-> in BA you want that a new node is connected to an existing node according to their degree (in python there are functions that allow, maybe choice() function that is a weighted probability distribution)
+	---- in the details inside the file of the BA MODEL; IMPORTANT NODE: for each new node that you add you need to add m links (use the same probability for each link in the m links you should add for the same node); when you'll add the following node (whith other m links) you'll need to recalculate the probabilites)
+
+
+
+
+	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+					
