@@ -5,7 +5,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import random as rd
 
-get_mle_power = lambda deg_list : 1/(np.log(5) - 1/len(deg_list)*sum(np.log(deg_list))) - 1
+get_mle_power = lambda deg_list, max_pow : 1/(np.log(max_pow) - 1/len(deg_list)*sum(np.log(deg_list))) - 1
 get_mle_poisson = lambda deg_list : 1/len(deg_list)*sum(deg_list)
 
 class ModelGenerator(ABC):
