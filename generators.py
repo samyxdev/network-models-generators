@@ -78,14 +78,41 @@ class WattsStrogatz(ModelGenerator):
                     #print("New nei:", new_nei)
                     self.G.add_edge(i, new_nei)
 
-"""
-g1 = ErdosRenyi(50, 50)
-nx.draw(g1.get_graph())
-plt.show()
-"""
+class ConfigurationModel(ModelGenerator):
+    """
+    N: Number of nodes
+    deg_dist: Function of the degree distribution. Must have arguments as (law_param, size)
+    law_param: Parameter of the degree distribution
+    """
+    def __init__(self, N, deg_dist, law_param):
+        super().__init__(N)
 
-g2 = WattsStrogatz(10, 4, 0.4)
-nx.draw_circular(g2.get_graph(), with_labels=True)
-plt.show()
+        assert callable(deg_dist)
 
+        # Generate a valid list of degrees (total sum of degrees must be even)
+        valid = False
+        degs = []
+        while not valid:
+            degs = deg_dist(law_param, N)
 
+            if sum(degs)%2 == 0:
+                valid = True
+            else:
+                print("Generated invalid degree list...")
+
+        #print(degs)
+
+        # Generate slot list
+        slots = []
+        for i in range(N):
+            slots += [i for _ in range(degs[i])]
+
+        #print(slots)
+
+        # Shuffle and add edges
+        np.random.shuffle(slots)
+
+        #print(slots)
+
+        for i in range(0, len(slots), 2):
+            self.G.add_edge(slots[i], slots[i+1])
