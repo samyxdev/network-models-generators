@@ -5,6 +5,9 @@ import numpy as np
 import matplotlib.pyplot as plt
 import random as rd
 
+get_mle_power = lambda deg_list : 1/(np.log(5) - 1/len(deg_list)*sum(np.log(deg_list))) - 1
+get_mle_poisson = lambda deg_list : 1/len(deg_list)*sum(deg_list)
+
 class ModelGenerator(ABC):
     G = nx.Graph()
 
@@ -21,6 +24,9 @@ class ModelGenerator(ABC):
 
     def get_graph(self):
         return self.G
+
+    def get_deg_list(self):
+        return [d[1] for d in self.G.degree()]
 
 class ErdosRenyi(ModelGenerator):
     K = 0
@@ -77,6 +83,7 @@ class WattsStrogatz(ModelGenerator):
                     new_nei = np.random.choice(list(nx.non_neighbors(self.G, i)))
                     #print("New nei:", new_nei)
                     self.G.add_edge(i, new_nei)
+
 
 class ConfigurationModel(ModelGenerator):
     """
