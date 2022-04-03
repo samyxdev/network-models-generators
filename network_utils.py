@@ -2,6 +2,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 from scipy.stats import poisson
+import math
 
 # Plotting auxiliary functions
 
@@ -45,10 +46,10 @@ def plot_distrib_log(graph, colour='#40a6d1', alpha=.8, fit_line=False, expct_lo
         plt.plot(w, z, 'k-', color='#7f7f7f')
 
     plt.legend(["Real degrees", f"Powerlaw model (gamma= -3)"])
-    
+
 
 # Plot degrees probability distributions in linear scale
-def plot_distrib_lin(graph, colour='#40a6d1', alpha=.8, fit_poisson=False, fit_lambda=None, expct_lo=1, expct_hi=10):
+def plot_distrib_lin(graph, colour='#40a6d1', alpha=.8, fit_poisson=False, fit_lambda=None, fit_binom_p=None, expct_lo=1, expct_hi=10):
     num_nodes = graph.number_of_nodes()
 
     # Calculate the maximum degree to know the range of x-axis
@@ -86,4 +87,20 @@ def plot_distrib_lin(graph, colour='#40a6d1', alpha=.8, fit_poisson=False, fit_l
         z = poisson.pmf(w, mu=fit_lambda)
         plt.plot(w, z, 'k-', color='#7f7f7f')
 
-    plt.legend(["Real degrees", f"Poisson model (lambda={fit_lambda})"])
+        plt.legend(["Real degrees", f"Poisson model (lambda={fit_lambda})"])
+
+    elif fit_binom_p != None:
+        # Add theoretical distribution binomial line
+        w = [a for a in np.arange(expct_lo,expct_hi)]
+        z = [math.comb(num_nodes-1, a) * fit_binom_p**a * (1-fit_binom_p)*(num_nodes-1-a) for a in w]
+
+        print(z)
+
+        #create an array with Binomial probability values
+        plt.plot(w, z, 'k-', color='#7f7f7f')
+
+        plt.legend(["Real degrees", f"Binomial model (lambda={fit_lambda})"])
+
+    else:
+        plt.legend(["Real degrees"])
+

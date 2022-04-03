@@ -29,7 +29,7 @@ def ErdosRenyi(N, K):
             if n2 != n1 and not G.has_edge(n1, n2):
                 valid = True
 
-        print("Adding edge:", n1, n2)
+        #print("Adding edge:", n1, n2)
         G.add_edge(n1, n2)
 
     return G
@@ -45,7 +45,6 @@ def WattsStrogatz(N, k, p):
     p = p
 
     # Initial generation of the regular ring lttice
-    print(nx.number_of_nodes(G))
     for i in range(N):
         for j in range(i + 1, (i + k//2 + 1)):
             #print("C", i, j%N)
