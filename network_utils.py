@@ -3,7 +3,9 @@ import numpy as np
 
 from scipy.stats import poisson
 
-# Plotting auxiliary function
+# Plotting auxiliary functions
+
+# Plot degrees probability distributions in log-log scale
 def plot_distrib_log(graph, colour='#40a6d1', alpha=.8, fit_line=False, expct_lo=1, expct_hi=10, expct_const=1):
     num_nodes = graph.number_of_nodes()
 
@@ -42,7 +44,11 @@ def plot_distrib_log(graph, colour='#40a6d1', alpha=.8, fit_line=False, expct_lo
 
         plt.plot(w, z, 'k-', color='#7f7f7f')
 
-def plot_distrib_lin(graph, colour='#40a6d1', alpha=.8, fit_poisson=False, fit_lambda=None, expct_lo=1, expct_hi=10, expct_const=1):
+    plt.legend(["Real degrees", f"Powerlaw model (gamma= -3)"])
+    
+
+# Plot degrees probability distributions in linear scale
+def plot_distrib_lin(graph, colour='#40a6d1', alpha=.8, fit_poisson=False, fit_lambda=None, expct_lo=1, expct_hi=10):
     num_nodes = graph.number_of_nodes()
 
     # Calculate the maximum degree to know the range of x-axis
@@ -62,7 +68,7 @@ def plot_distrib_lin(graph, colour='#40a6d1', alpha=.8, fit_poisson=False, fit_l
                 y_tmp[i] += 1
         y = [i / num_nodes for i in y_tmp]
 
-    plt.plot(x, y, linewidth = 1, marker = 'o', markersize = 8, color = colour, alpha = alpha)
+    plt.plot(x, y, linewidth = 0, marker = 'o', markersize = 8, color = colour, alpha = alpha)
     plt.title('Degree distribution (linear scale)')
     plt.ylabel('P(k)')
     plt.xlabel('k')
