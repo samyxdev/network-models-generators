@@ -67,14 +67,13 @@ def plot_distrib_lin(graph, colour='#40a6d1', alpha=.8, fit_poisson=False, fit_l
                 y_tmp[i] += 1
         y = [i / num_nodes for i in y_tmp]
 
-    plt.plot(x, y, linewidth = 0, marker = 'o', markersize = 8, color = colour, alpha = alpha)
+    plt.plot(x, y, linewidth = 1, marker = 'o', markersize = 8, color = colour, alpha = alpha)
     plt.title('Degree distribution (linear scale)')
     plt.ylabel('P(k)')
     plt.xlabel('k')
 
     if fit_poisson:
         # Add theoretical distribution poisson line
-        # Note that you need to parametrize it manually
         w = [a for a in np.arange(expct_lo,expct_hi)]
         z = []
 
@@ -85,5 +84,7 @@ def plot_distrib_lin(graph, colour='#40a6d1', alpha=.8, fit_poisson=False, fit_l
         #create an array with Poisson probability values
         z = poisson.pmf(w, mu=fit_lambda)
         plt.plot(w, z, 'k-', color='#7f7f7f')
+
+    plt.legend(["Real degrees", f"Poisson model (lambda={fit_lambda})"])
 
     plt.show()
