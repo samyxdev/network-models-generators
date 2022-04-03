@@ -5,8 +5,6 @@ from scipy.stats import poisson
 
 # Plotting auxiliary function
 def plot_distrib_log(graph, colour='#40a6d1', alpha=.8, fit_line=False, expct_lo=1, expct_hi=10, expct_const=1):
-
-    plt.close()
     num_nodes = graph.number_of_nodes()
 
     # Calculate the maximum degree to know the range of x-axis
@@ -44,10 +42,7 @@ def plot_distrib_log(graph, colour='#40a6d1', alpha=.8, fit_line=False, expct_lo
 
         plt.plot(w, z, 'k-', color='#7f7f7f')
 
-    plt.show()
-
 def plot_distrib_lin(graph, colour='#40a6d1', alpha=.8, fit_poisson=False, fit_lambda=None, expct_lo=1, expct_hi=10, expct_const=1):
-    plt.close()
     num_nodes = graph.number_of_nodes()
 
     # Calculate the maximum degree to know the range of x-axis
@@ -86,5 +81,3 @@ def plot_distrib_lin(graph, colour='#40a6d1', alpha=.8, fit_poisson=False, fit_l
         plt.plot(w, z, 'k-', color='#7f7f7f')
 
     plt.legend(["Real degrees", f"Poisson model (lambda={fit_lambda})"])
-
-    plt.show()
