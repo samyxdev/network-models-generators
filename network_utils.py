@@ -104,3 +104,69 @@ def plot_distrib_lin(graph, colour='#40a6d1', alpha=.8, fit_poisson=False, fit_l
     else:
         plt.legend(["Real degrees"])
 
+
+"""
+        LINEAR AND LOGLOG PLOTS OF PDF AND CCDF
+"""
+
+# Auxiliary function to create logaritmically spaced bins (for log-log histogram) by specifying the number of bins
+def create_log_bins(degrees, num = 20):
+    bins = np.logspace(np.log10(np.min(degrees)), np.log10(np.max(degrees)), num)
+    bins = np.array(bins)
+    return bins
+
+# PDF histogram in linear scale
+def plot_linear_PDF(G, name='', nbins = 15):
+    degrees = [G.degree(n) for n in G.nodes()]
+    #plt.figure(figsize=(12,8))
+    plt.title('PDF in linear scale', fontsize=15)
+    plt.xlabel('Degree', fontsize=13)
+    plt.ylabel('PDF', fontsize=13)
+    plt.hist(degrees, bins=nbins, density = True, cumulative = False)
+    plt.tight_layout()
+    plt.style.use('ggplot')
+
+# PDF histogram in Log-Log scale
+def plot_loglog_PDF(G, name="", nbins=20):
+    degrees = [G.degree(n) for n in G.nodes()]
+
+    # creating logaritmically spaced bins
+    bins = create_log_bins(degrees, num = nbins)
+
+    #plt.figure(figsize=(12,8))
+    plt.title('PDF in log-log scale',  fontsize=15)
+    plt.xlabel('Degree', fontsize=13)
+    plt.ylabel('PDF', fontsize=13)
+    plt.yscale('log')
+    plt.xscale('log')
+    plt.hist(degrees, bins=bins, density = True, cumulative = False)
+    plt.tight_layout()
+    #plt.style.use('ggplot')
+
+# CCDF histogram in linear scale
+def plot_linear_CCDF(G, name="", nbins=30):
+    degrees = [G.degree(n) for n in G.nodes()]
+    #plt.figure(figsize=(12,8))
+    plt.title('CCDF in linear scale', fontsize=15)
+    plt.xlabel('Degree', fontsize=13)
+    plt.ylabel('CCDF', fontsize=13)
+    plt.hist(degrees, bins=nbins, density = True, cumulative = -1)
+    plt.tight_layout()
+    #plt.style.use('ggplot')
+
+# CCDF histogram in Log-Log scale
+def plot_loglog_CCDF(G, name="", nbins=30):
+    degrees = [G.degree(n) for n in G.nodes()]
+
+    # creating logaritmically spaced bins
+    bins = create_log_bins(degrees, num=nbins)
+
+    #plt.figure(figsize=(12,8))
+    plt.title('CCDF in log-log scale', fontsize=15)
+    plt.xlabel('Degree', fontsize=13)
+    plt.ylabel('CCDF', fontsize=13)
+    plt.yscale('log')
+    plt.xscale('log')
+    plt.hist(degrees, bins=bins, density = True, cumulative = -1)
+    plt.tight_layout()
+    #plt.style.use('ggplot')
