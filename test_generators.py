@@ -1,3 +1,4 @@
+from cmath import exp
 from generators import *
 
 import sys
@@ -5,9 +6,16 @@ print(sys.version)
 import networkx as nx
 print(nx.__version__)
 
+from network_utils import *
 
-g1 = ErdosRenyi(20, 5)
+
+"""g1 = ErdosRenyi(20, 5)
 nx.draw(g1, alpha=.5, node_size=20)
+plt.show()"""
+
+g1 = ErdosRenyi(1e3, 5)
+p = 2 * 5 / (1e3 * (1e3 - 1))
+plot_distrib_lin(g1, fit_binom_p=p, expct_lo=1, expct_hi=10)
 plt.show()
 
 
